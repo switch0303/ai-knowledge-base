@@ -12,9 +12,9 @@ RSS_FEEDS = (
     if os.getenv("RSS_FEEDS")
     else [
         "https://hnrss.org/frontpage",
-        "https://importai.io/feed",
-        "https://openai.com/blog/rss/",
-        "https://hnrss.org/newest?points=100",
+        "https://export.arxiv.org/rss/cs.AI",
+        "https://export.arxiv.org/rss/cs.LG",
+        "https://export.arxiv.org/rss/cs.CL",
     ]
 )
 
@@ -40,3 +40,4 @@ KEYWORDS = (
 # Collection settings
 DAILY_LIMIT = int(os.getenv("DAILY_LIMIT", "20"))
 COLLECTION_TIME = os.getenv("COLLECTION_TIME", "00:00")  # UTC
+MAX_ENTRIES_PER_FEED = int(os.getenv("MAX_ENTRIES_PER_FEED", "30"))
