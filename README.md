@@ -67,4 +67,30 @@ nohup python src/collect.py > collection.log 2>&1 &
 - 修改 `.env` 中的 `RSS_FEEDS` 添加/删除订阅源
 - 修改 `KEYWORDS` 调整筛选关键词
 - `DAILY_LIMIT` 控制每日采集数量（默认 20）
+- `MAX_ENTRIES_PER_FEED` 限制每个源处理的条目数（默认 30，arXiv 源建议降低）
 - `COLLECTION_TIME` 设置采集时间（UTC，默认 00:00）
+
+## 高级用法
+
+### 1. 使用系统调度
+```bash
+# 添加到 crontab（每日 UTC 00:00 运行）
+0 0 * * * cd /path/to/ai-knowledge-base && /path/to/venv/bin/python src/collect.py >> /path/to/collection.log 2>&1
+```
+
+### 2. 测试特定 RSS 源
+```bash
+# 临时修改环境变量测试
+RSS_FEEDS=https://hnrss.org/frontpage python src/collect.py
+```
+
+### 3. 调整 API 使用
+为控制成本，建议：
+- 降低 `DAILY_LIMIT`（如 10）
+- 降低 `MAX_ENTRIES_PER_FEED`（如 15）
+- 对 arXiv 源使用更严格的关键词过滤
+
+### 4. 故障排除
+- **SSL 错误**：脚本已处理，无需额外配置
+- **API 错误**：检查 DeepSeek API Key 和配额
+- **空结果**：调整关键词或添加更多 RSS 源
