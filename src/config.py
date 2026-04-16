@@ -11,10 +11,10 @@ RSS_FEEDS = (
     os.getenv("RSS_FEEDS", "").split(",")
     if os.getenv("RSS_FEEDS")
     else [
-        "https://arxiv.org/rss/stat.ML",
-        "https://arxiv.org/rss/cs.CL",
-        "https://arxiv.org/rss/cs.LG",
+        "https://hnrss.org/frontpage",
         "https://importai.io/feed",
+        "https://openai.com/blog/rss/",
+        "https://hnrss.org/newest?points=100",
     ]
 )
 

@@ -71,7 +71,7 @@ class RSSCollector:
         
         for feed_url in RSS_FEEDS:
             try:
-                feed = feedparser.parse(feed_url)
+                feed = feedparser.parse(feed_url, agent='Mozilla/5.0 (compatible; AI-Knowledge-Base/1.0)')
                 print(f"Fetched {len(feed.entries)} entries from {feed_url}")
                 
                 for entry in feed.entries:
@@ -176,17 +176,10 @@ class RSSCollector:
 def main():
     collector = RSSCollector()
     
-    # Run immediately for testing
+    # Run once and exit (for testing)
     collector.collect_and_analyze()
     
-    # Schedule daily collection
-    schedule.every().day.at(COLLECTION_TIME).do(collector.collect_and_analyze)
-    
-    print(f"Scheduled daily collection at {COLLECTION_TIME} UTC")
-    
-    while True:
-        schedule.run_pending()
-        time.sleep(60)
+    print("Collection completed. Exiting.")
 
 
 if __name__ == "__main__":
