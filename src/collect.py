@@ -13,7 +13,7 @@ import urllib3
 
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from config import (
+from src.config import (
     DEEPSEEK_API_KEY,
     DEEPSEEK_BASE_URL,
     RSS_FEEDS,
@@ -35,18 +35,23 @@ class DeepSeekAnalyzer:
         self.model = "deepseek-chat"
 
     def analyze(self, content: str, source_url: str) -> Dict:
-        prompt = f"""Analyze this AI-related content:
+        prompt = f"""请分析以下AI相关的内容（内容可能为英文）：
 
 {content[:3000]}
 
-Provide analysis with:
-1. One-sentence summary (一级结论)
-2. Key supporting evidence bullet points (多级论据)  
-3. Your expert commentary (评论)
-4. Recommendation score 1-5 (推荐度) - based on source credibility and content quality
-5. Confidence score 1-5 (置信度) - based on source credibility
+请提供以下分析（请用中文输出）：
+1. 一句话总结（一级结论） - 用一句中文概括核心内容
+2. 关键支撑证据要点（多级论据） - 基于内容提取3-5个具体证据点，每个证据点应完整表达一个具体事实或发现
+3. 你的专家评论（评论） - 提供专业见解和分析
+4. 推荐度评分 1-5（推荐度）- 基于来源可信度和内容质量
+5. 置信度评分 1-5（置信度）- 基于来源可信度
 
-Format as JSON with keys: summary, evidence, commentary, recommendation, confidence"""
+请以JSON格式输出，包含以下键：
+- summary: 字符串，包含一句话总结
+- evidence: 字符串数组，包含具体的证据要点（每个要点是一个完整的句子）
+- commentary: 字符串，包含专家评论
+- recommendation: 整数，1-5
+- confidence: 整数，1-5"""
 
         try:
             response = self.client.chat.completions.create(
@@ -54,7 +59,7 @@ Format as JSON with keys: summary, evidence, commentary, recommendation, confide
                 messages=[
                     {
                         "role": "system",
-                        "content": "You are an AI expert analyzing technical content.",
+                        "content": "你是一位AI专家，擅长分析技术内容。请用中文进行所有分析和输出。对于证据部分，请基于内容提取具体的事实性证据点，而不是通用类别标签。",
                     },
                     {"role": "user", "content": prompt},
                 ],
