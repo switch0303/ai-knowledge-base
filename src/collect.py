@@ -13,7 +13,7 @@ import urllib3
 
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from .config import (
+from config import (
     DEEPSEEK_API_KEY,
     DEEPSEEK_BASE_URL,
     RSS_FEEDS,
